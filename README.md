@@ -1,4 +1,4 @@
-# Evaluating Music Autotagging with MGPHot: Expert Annotations vs. Crowdsourced Benchmarks
+# Extended Metadata for MGPHot (audio links and more!)
 
 This repo is still in construction....
 
