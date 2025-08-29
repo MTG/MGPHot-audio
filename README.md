@@ -109,4 +109,4 @@ and the original dataset:
 
 ## License
 
-Code and extended metadatada are released for **non‑commercial use**. See the `LICENSE` file for details.
+Code and metadatada are released for **non‑commercial use**. See the `LICENSE` file for details.
