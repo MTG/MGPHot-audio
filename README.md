@@ -104,7 +104,15 @@ If you use this repository in research, please cite the paper:
 and the original dataset:
 
 ```bibtex
-
+@article{oramas2025mgphot,
+  author    = {Oramas, Sebastian and Gouyon, Fabien and Hogan, Stuart and Landau, Chris and Ehmann, Anahid},
+  title     = {MGPHot: A Dataset of Musicological Annotations for Popular Music (1958--2022)},
+  journal   = {Transactions of the International Society for Music Information Retrieval},
+  volume    = {8},
+  number    = {1},
+  pages     = {108--120},
+  year      = {2025},
+}
 ```
 
 ## License
