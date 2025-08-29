@@ -64,9 +64,12 @@ MD5 ensures exact byte match, including field order, indentation, and the traili
 
 ## Download the audio
 
+
 ```bash
 python download_audio.py
 ```
+
+We have been able to conduct the downloads from our research institution under Directive (EU) 2019/790 on Copyright in the Digital Single Market, which includes text and data mining exceptions for the purposes of scientific research (Article 3).
 
 ## Repository layout
 - `data_preparation/` — Clean and reliable process to obtain YouTube links and to build the indices.
@@ -105,4 +108,5 @@ and the original dataset:
 ```
 
 ## License
-Code and index definitions are released for **research and non‑commercial use**. See the `LICENSE` file for details.
+
+Code and extended metadatada are released for **non‑commercial use**. See the `LICENSE` file for details.
