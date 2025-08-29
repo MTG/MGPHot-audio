@@ -118,5 +118,5 @@ and the original dataset:
 ## License
 
 - The code in this repository is licensed under the MIT license.
-- Annotation metadata from MGPHot dataset used by the code is available for [non-commerical use](URL to the dataset).
+- Annotation metadata from MGPHot dataset used by the code is available for [non-commerical use](https://zenodo.org/records/15372063).
 - The metadata related to mapping to YouTube is available under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
