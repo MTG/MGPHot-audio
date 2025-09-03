@@ -24,16 +24,13 @@ _Compliance note: do not upload reconstructed indices or audio to this repositor
 
 
 ## What you reconstruct
-You will obtain three JSON index files:
+You will obtain two JSON index files:
 
 1. `genome_index_split.json`
    **Task:** regression on `gene_values` (continuous targets).
 
-2. `genome_index_split_positive.json`
-   **Task:** positive music autotagging (binary tags from thresholds over `gene_values`).
-
-3. `genome_index_split_negative.json`
-   **Task:** negative music autotagging (complement of the positive tags).
+2. `genome_index_split_tags.json`
+   **Task:** music autotagging (tags from `gene_values`).
 
 Each index already includes the train/validation/test split in the field `split`.
 MD5 files are used to guarantee that every index is **canonical** in content and formatting.
@@ -48,7 +45,7 @@ python reconstruct.py
 It will:
 - download the Zenodo TSV with `gene_values`,
 - rebuild the base index with `gene_values`,
-- generate positive and negative indices,
+- generate tags index,
 - compare each output with its reference MD5,
 - print a short report with dashed separators.
 
@@ -56,8 +53,7 @@ It will:
 
 **Outputs created (plus their `.md5` files):**
 - `genome_index_split.json`
-- `genome_index_split_positive.json`
-- `genome_index_split_negative.json`
+- `genome_index_split_tags.json`
 
 If an MD5 does not match, the script prints it clearly.
 MD5 ensures exact byte match, including field order, indentation, and the trailing newline policy.
@@ -76,7 +72,7 @@ We have been able to conduct the downloads from our research institution under D
 - `download_audio/` — Scripts to download and verify all audio.
 - `evaluation_probes/` — Training and evaluation code for the benchmark (regression and autotagging probes).
 - `reconstruct.py` — Rebuilds the three indices and verifies MD5 for each.
-- `genome_positive.py` / `genome_negative.py` — Convert `gene_values` to positive and negative tags.
+- `genome_tags.py` — Convert `gene_values` to tags.
 
 ## Contribute
 

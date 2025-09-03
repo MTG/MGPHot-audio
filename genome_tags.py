@@ -4,6 +4,7 @@
 import json
 import argparse
 from pathlib import Path
+from collections import Counter
 
 FEATURE_NAMES = [
     "Vocal Register", "Vocal Timbre Thin to Full", "Vocal Breathiness", "Vocal Smoothness",
@@ -23,25 +24,29 @@ FEATURE_NAMES = [
 
 MAJOR_MINOR_IDX = FEATURE_NAMES.index("Minor / Major Key Tonality")
 
-def values_to_negative_tags(values, negative_thr=0.2):
-    tags = []
-    for i, v in enumerate(values):
-        # Special handling for tonality
-        if i == MAJOR_MINOR_IDX:
-            # Not Major if value <= 0.8
-            if v <= 0.2:
-                tags.append("No Major")
-            # Not Minor if value >= 0.2
-            if v >= 0.8:
-                tags.append("No Minor")
-            continue
-        # General rule: value < 0.2
-        if v < negative_thr:
-            tags.append(f"No {FEATURE_NAMES[i]}")
-    return tags
+def value_to_tag(i, v):
+    """Map a value to the correct tag string."""
+    if i == MAJOR_MINOR_IDX:
+        if v < 0.33:
+            return "Minor"
+        elif v < 0.66:
+            return "Ambiguous Key Mode"
+        else:
+            return "Major"
+    else:
+        if v < 0.33:
+            return FEATURE_NAMES[i] + " Low"
+        elif v < 0.66:
+            return FEATURE_NAMES[i] + " Moderate"
+        else:
+            return FEATURE_NAMES[i] + " High"
 
-def convert_file(in_path: Path, out_path: Path, negative_thr=0.2):
+def values_to_tags(values):
+    return [value_to_tag(i, v) for i, v in enumerate(values)]
+
+def convert_file(in_path: Path, out_path: Path):
     data = json.loads(Path(in_path).read_text(encoding="utf-8"))
+    counter = Counter()
 
     for k, item in data.items():
         values = item.get("gene_values")
@@ -49,33 +54,30 @@ def convert_file(in_path: Path, out_path: Path, negative_thr=0.2):
             if len(values) != len(FEATURE_NAMES):
                 print(f"Warning: entry {k} has {len(values)} values, "
                       f"but feature list has {len(FEATURE_NAMES)} names.")
-            item["negative_tags"] = values_to_negative_tags(
-                values, negative_thr=negative_thr
-            )
-            # Remove gene_values if you want a clean output
+            tags = values_to_tags(values)
+            item["positive_tags"] = tags
+            counter.update(tags)
             item.pop("gene_values", None)
         else:
-            item.setdefault("negative_tags", [])
+            item.setdefault("positive_tags", [])
+
+    # create global tag index sorted by count
+    sorted_tags = counter.most_common()
+    print(sorted_tags)
 
     out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Saved to: {out_path}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Create negative tags from gene_values.")
+    parser = argparse.ArgumentParser(description="Convert gene_values to positive_tags with 3-level bins.")
     parser.add_argument("-i", "--input", type=Path, default=Path("genome_index_split.json"),
                         help="Input JSON path.")
-    parser.add_argument("-o", "--output", type=Path, default=Path("genome_index_split_neg_tags.json"),
+    parser.add_argument("-o", "--output", type=Path, default=Path("genome_index_split_tags.json"),
                         help="Output JSON path.")
-    parser.add_argument("--negative_thr", type=float, default=0.2,
-                        help="Threshold for general negative tags (value < negative_thr).")
-    parser.add_argument("--major_thr", type=float, default=0.8,
-                        help="Threshold for No Major (value <= major_thr).")
-    parser.add_argument("--minor_thr", type=float, default=0.2,
-                        help="Threshold for No Minor (value >= minor_thr).")
     args = parser.parse_args()
 
-    convert_file(args.input, args.output,
-                 negative_thr=args.negative_thr)
+    convert_file(args.input, args.output)
 
 if __name__ == "__main__":
     main()
