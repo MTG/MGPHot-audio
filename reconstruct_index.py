@@ -10,16 +10,15 @@ TSV_PATH      = Path("mgphot_gene_values.tsv")
 
 INPUT_JSON    = Path("genome_index_split_without_gene.json")   # without gene_values
 OUTPUT_JSON   = Path("genome_index_split.json")                # reconstructed (with gene_values)
-ORIGINAL_MD5  = Path("md5/genome_index_split_original.md5")        # expected MD5 for OUTPUT_JSON
+ORIGINAL_MD5  = Path("md5/genome_index_split.json.md5")        # expected MD5 for OUTPUT_JSON
 
-POS_SCRIPT    = Path("genome_positive.py")
-NEG_SCRIPT    = Path("genome_negative.py")
+TAGS_SCRIPT    = Path("genome_tags.py")
 
-POS_OUTPUT    = Path("genome_index_split_positive.json")
-NEG_OUTPUT    = Path("genome_index_split_negative.json")
+TAGS_OUTPUT    = Path("genome_index_split_tags.json")
 
-POS_MD5_FILE  = Path("md5/genome_index_split_positive.md5")
-NEG_MD5_FILE  = Path("md5/genome_index_split_negative.md5")
+
+TAGS_MD5_FILE  = Path("md5/genome_index_split_tags.json.md5")
+
 
 DESIRED_ORDER = [
     "artist", "title", "youtube_url", "youtube_id",
@@ -105,7 +104,11 @@ def md5_file(path: Path) -> str:
     return h.hexdigest()
 
 def read_expected_md5(path: Path) -> str:
-    return path.read_text(encoding="utf-8").strip() if path.exists() else ""
+    if not path.exists():
+        return ""
+    content = path.read_text(encoding="utf-8").strip()
+    # Extract just the hash (first part before space)
+    return content.split()[0] if content else ""
 
 def toggle_trailing_newline(path: Path) -> None:
     s = path.read_text(encoding="utf-8")
@@ -160,30 +163,16 @@ def main():
 
     # 3) Positive
     try:
-        run_script(POS_SCRIPT, ["-i", str(OUTPUT_JSON), "-o", str(POS_OUTPUT)])
-        expected_pos = read_expected_md5(POS_MD5_FILE)
-        d_pos, m_pos = try_match_md5(POS_OUTPUT, expected_pos)
-        print(f"MD5 (positive): {d_pos}")
-        print(f"Match (positive): {m_pos}")
-        print(f"Saved (positive): {POS_OUTPUT}")
+        run_script(TAGS_SCRIPT, ["-i", str(OUTPUT_JSON), "-o", str(TAGS_OUTPUT)])
+        expected_pos = read_expected_md5(TAGS_MD5_FILE)
+        d_pos, m_pos = try_match_md5(TAGS_OUTPUT, expected_pos)
+        print(f"MD5 (TAGS): {d_pos}")
+        print(f"Match (TAGS): {m_pos}")
+        print(f"Saved (TAGS): {TAGS_OUTPUT}")
     except Exception as e:
-        print(f"MD5 (positive): ")
-        print(f"Match (positive): False")
-        print(f"Saved (positive): {POS_OUTPUT}  # error: {e}")
-    print_sep()
-
-    # 4) Negative
-    try:
-        run_script(NEG_SCRIPT, ["-i", str(OUTPUT_JSON), "-o", str(NEG_OUTPUT)])
-        expected_neg = read_expected_md5(NEG_MD5_FILE)
-        d_neg, m_neg = try_match_md5(NEG_OUTPUT, expected_neg)
-        print(f"MD5 (negative): {d_neg}")
-        print(f"Match (negative): {m_neg}")
-        print(f"Saved (negative): {NEG_OUTPUT}")
-    except Exception as e:
-        print(f"MD5 (negative): ")
-        print(f"Match (negative): False")
-        print(f"Saved (negative): {NEG_OUTPUT}  # error: {e}")
+        print(f"MD5 (TAGS): ")
+        print(f"Match (TAGS): False")
+        print(f"Saved (TAGS): {TAGS_OUTPUT}  # error: {e}")
     print_sep()
 
 if __name__ == "__main__":
