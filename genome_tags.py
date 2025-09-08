@@ -26,6 +26,8 @@ MAJOR_MINOR_IDX = FEATURE_NAMES.index("Minor / Major Key Tonality")
 
 def value_to_tag(i, v):
     """Map a value to the correct tag string."""
+    if v is None:
+        return None
     if i == MAJOR_MINOR_IDX:
         if v < 0.33:
             return "Minor"
@@ -34,15 +36,16 @@ def value_to_tag(i, v):
         else:
             return "Major"
     else:
-        if v < 0.33:
+        if v > 0.0 and v < 0.33:
             return FEATURE_NAMES[i] + " Low"
-        elif v < 0.66:
+        elif  v >= 0.33 and v < 0.66:
             return FEATURE_NAMES[i] + " Moderate"
-        else:
+        elif v >= 0.66:
             return FEATURE_NAMES[i] + " High"
 
 def values_to_tags(values):
-    return [value_to_tag(i, v) for i, v in enumerate(values)]
+    tags = [value_to_tag(i, v) for i, v in enumerate(values)]
+    return [tag for tag in tags if tag is not None]
 
 def convert_file(in_path: Path, out_path: Path):
     data = json.loads(Path(in_path).read_text(encoding="utf-8"))
@@ -64,6 +67,7 @@ def convert_file(in_path: Path, out_path: Path):
     # create global tag index sorted by count
     sorted_tags = counter.most_common()
     print(sorted_tags)
+    print(len(sorted_tags))
 
     out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Saved to: {out_path}")
