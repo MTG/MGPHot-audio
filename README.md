@@ -1,6 +1,16 @@
 # Extended Metadata for MGPHot (audio links and more!)
 
-This repo is still in construction....
+<p align="center">
+  <a href="https://arxiv.org/abs/2509.06936">
+    <img src="https://img.shields.io/badge/arXiv-2509.06936-b31b1b.svg" alt="arXiv">
+  </a>
+  <a href="https://github.com/MTG/MGPHot-audio">
+    <img src="https://img.shields.io/badge/GitHub-MGPHot--audio-181717?logo=github" alt="GitHub">
+  </a>
+  <a href="https://zenodo.org/records/16993068">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.16993068.svg" alt="DOI">
+  </a>
+</p>
 
 ## Purpose of this repository
 
