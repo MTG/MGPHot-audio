@@ -106,7 +106,7 @@ If you use this repository in research, please cite the paper:
 ```bibtex
 @misc{ramoneda2025benchmarkingmusicautotaggingmgphot,
   title        = {Benchmarking Music Autotagging with MGPHot Expert Annotations vs. Generic Tag Datasets},
-  author       = {Pedro Ramoneda and Pablo Alonso-Jimenez and Sergio Oramas and Xavier Serra and Dmitry Bogdanov},
+  author       = {Pedro Ramoneda and Pablo Alonso-Jim{\'e}nez and Sergio Oramas and Xavier Serra and Dmitry Bogdanov},
   year         = {2025},
   eprint       = {2509.06936},
   archivePrefix= {arXiv},
