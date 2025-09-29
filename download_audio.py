@@ -8,7 +8,7 @@ from yt_dlp.utils import DownloadError
 # -------------- Config ----------------
 
 INPUT_JSON = "genome_index_split.json"
-ROOT_DIR = "/mnt/md1/genome_audio"
+ROOT_DIR = "genome_audio"
 COOKIES_PATH = "cookies.txt"  # Ruta al archivo cookies.txt
 
 # -------------- Helpers ----------------
