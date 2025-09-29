@@ -60,10 +60,32 @@ MD5 ensures exact byte match, including field order, indentation, and the traili
 
 ## Download the audio
 
+### Prerequisites
+
+Before downloading audio, you need to obtain a `cookies.txt` file from YouTube:
+
+1. **Install a browser extension:**
+   - Chrome: "Get cookies.txt" or "cookies.txt"
+   - Firefox: "cookies.txt" or "Export Cookies"
+   - Edge: "Get cookies.txt"
+
+2. **Export YouTube cookies:**
+   - Go to [YouTube](https://www.youtube.com) and log in to your account
+   - Use the browser extension to export cookies
+   - Save the file as `cookies.txt` in the project root directory
+
+3. **Why cookies are needed:**
+   - YouTube requires authentication for downloading audio
+   - The cookies.txt file contains your session information
+   - This is necessary due to YouTube's policies and rate limiting
+
+### Download Process
 
 ```bash
 python download_audio.py
 ```
+
+**Note:** The script will check for `cookies.txt` and provide detailed instructions if the file is missing.
 
 We have been able to conduct the downloads from our research institution under Directive (EU) 2019/790 on Copyright in the Digital Single Market, which includes text and data mining exceptions for the purposes of scientific research (Article 3).
 

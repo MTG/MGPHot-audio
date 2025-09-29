@@ -82,6 +82,19 @@ def download_audio_mp3(yt_id, root_dir, force_failed=False):
 
 # -------------- Main ----------------
 
+# Check if cookies.txt exists
+if not os.path.exists(COOKIES_PATH):
+    print("❌ ERROR: cookies.txt file not found!")
+    print("\n📋 How to get cookies.txt:")
+    print("1. Install a browser extension like 'Get cookies.txt' or 'cookies.txt'")
+    print("2. Go to YouTube and log in to your account")
+    print("3. Use the extension to export cookies to a file named 'cookies.txt'")
+    print("4. Place the cookies.txt file in the same directory as this script")
+    print("5. Run the script again")
+    print("\n💡 Note: Cookies are needed to download audio from YouTube due to their policies.")
+    print("   The cookies.txt file should contain your YouTube session cookies.")
+    exit(1)
+
 with open(INPUT_JSON, "r", encoding="utf-8") as f:
     tracks = list(json.load(f).values())
 
